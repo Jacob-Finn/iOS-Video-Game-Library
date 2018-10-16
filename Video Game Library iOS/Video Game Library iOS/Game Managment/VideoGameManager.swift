@@ -11,6 +11,6 @@ import UIKit
 class VideoGameManager {
     
     
-    static var videoGameLocation = [Int: UITableViewCell]()
-    static var videoGameList = [VideoGame]()
+    static var outGameList = [VideoGame]()
+    static var inGameList = [VideoGame]()
 }

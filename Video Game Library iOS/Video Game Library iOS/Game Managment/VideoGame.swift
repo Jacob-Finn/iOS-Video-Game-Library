@@ -33,7 +33,7 @@ class VideoGame {
         self.rating = rating
         self.checkedInDate = ""
         self.image = setupImage()
-        }
+    }
     
     
     func setupImage() -> UIImage {
@@ -44,4 +44,31 @@ class VideoGame {
         return image
     }
     
+    func checkOut() {
+        let calander = Calendar.init(identifier: .gregorian)
+        let today = Date()
+        let dateFormatter = DateFormatter()
+        let calculatedDate = calander.date(byAdding: .day, value: 14, to: today)
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        self.dueDate = dateFormatter.string(from: calculatedDate!)
+    }
+    func checkIn() {
+        let today = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        self.dueDate = ""
+        self.checkedInDate = dateFormatter.string(from: today)
+    }
+    
+    func loadImage(filename: String) -> UIImage? {
+        let fileManager = FileManager()
+        let home = fileManager.currentDirectoryPath
+        let imagePath = ("/\(filename).png")
+        let filepath = ("\(home)\(imagePath)")
+        print(filepath)
+        
+        return nil
+        
+    }
 }
+

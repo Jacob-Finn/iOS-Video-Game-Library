@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7B712B212174D2F600EC3957 /* VideoGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B202174D2F600EC3957 /* VideoGameCell.swift */; };
+		7B712B212174D2F600EC3957 /* InGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B202174D2F600EC3957 /* InGameCell.swift */; };
 		7B712B232174D36400EC3957 /* LibraryTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B222174D36400EC3957 /* LibraryTableController.swift */; };
 		7B712B252174D43F00EC3957 /* VideoGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B242174D43F00EC3957 /* VideoGame.swift */; };
 		7B712B272174D97D00EC3957 /* VideoGameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B262174D97D00EC3957 /* VideoGameManager.swift */; };
@@ -16,10 +16,12 @@
 		7B7A5F602174D21E0048ED54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7A5F5E2174D21E0048ED54 /* Main.storyboard */; };
 		7B7A5F622174D2200048ED54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B7A5F612174D2200048ED54 /* Assets.xcassets */; };
 		7B7A5F652174D2200048ED54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7A5F632174D2200048ED54 /* LaunchScreen.storyboard */; };
+		7B810A882176267B003CE715 /* CheckedOutTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B810A872176267B003CE715 /* CheckedOutTableController.swift */; };
+		7B810A8E217628C7003CE715 /* CheckedGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B810A8D217628C7003CE715 /* CheckedGameCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7B712B202174D2F600EC3957 /* VideoGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCell.swift; sourceTree = "<group>"; };
+		7B712B202174D2F600EC3957 /* InGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InGameCell.swift; sourceTree = "<group>"; };
 		7B712B222174D36400EC3957 /* LibraryTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableController.swift; sourceTree = "<group>"; };
 		7B712B242174D43F00EC3957 /* VideoGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGame.swift; sourceTree = "<group>"; };
 		7B712B262174D97D00EC3957 /* VideoGameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameManager.swift; sourceTree = "<group>"; };
@@ -30,6 +32,8 @@
 		7B7A5F612174D2200048ED54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B7A5F642174D2200048ED54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B7A5F662174D2200048ED54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B810A872176267B003CE715 /* CheckedOutTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckedOutTableController.swift; sourceTree = "<group>"; };
+		7B810A8D217628C7003CE715 /* CheckedGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckedGameCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,18 +66,44 @@
 		7B7A5F592174D21E0048ED54 /* Video Game Library iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7B712B2A21753A7600EC3957 /* InfoViewController.swift */,
 				7B7A5F5A2174D21E0048ED54 /* AppDelegate.swift */,
 				7B7A5F5E2174D21E0048ED54 /* Main.storyboard */,
 				7B7A5F612174D2200048ED54 /* Assets.xcassets */,
 				7B7A5F632174D2200048ED54 /* LaunchScreen.storyboard */,
 				7B7A5F662174D2200048ED54 /* Info.plist */,
-				7B712B202174D2F600EC3957 /* VideoGameCell.swift */,
-				7B712B222174D36400EC3957 /* LibraryTableController.swift */,
-				7B712B242174D43F00EC3957 /* VideoGame.swift */,
-				7B712B262174D97D00EC3957 /* VideoGameManager.swift */,
-				7B712B2A21753A7600EC3957 /* InfoViewController.swift */,
+				7B810A8C2176270E003CE715 /* Game Managment */,
+				7B810A8B217626F7003CE715 /* CheckedOutController */,
+				7B810A89217626B0003CE715 /* LibraryTableController */,
 			);
 			path = "Video Game Library iOS";
+			sourceTree = "<group>";
+		};
+		7B810A89217626B0003CE715 /* LibraryTableController */ = {
+			isa = PBXGroup;
+			children = (
+				7B712B202174D2F600EC3957 /* InGameCell.swift */,
+				7B712B222174D36400EC3957 /* LibraryTableController.swift */,
+			);
+			path = LibraryTableController;
+			sourceTree = "<group>";
+		};
+		7B810A8B217626F7003CE715 /* CheckedOutController */ = {
+			isa = PBXGroup;
+			children = (
+				7B810A8D217628C7003CE715 /* CheckedGameCell.swift */,
+				7B810A872176267B003CE715 /* CheckedOutTableController.swift */,
+			);
+			path = CheckedOutController;
+			sourceTree = "<group>";
+		};
+		7B810A8C2176270E003CE715 /* Game Managment */ = {
+			isa = PBXGroup;
+			children = (
+				7B712B262174D97D00EC3957 /* VideoGameManager.swift */,
+				7B712B242174D43F00EC3957 /* VideoGame.swift */,
+			);
+			path = "Game Managment";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,9 +178,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B712B232174D36400EC3957 /* LibraryTableController.swift in Sources */,
+				7B810A8E217628C7003CE715 /* CheckedGameCell.swift in Sources */,
 				7B7A5F5B2174D21E0048ED54 /* AppDelegate.swift in Sources */,
+				7B810A882176267B003CE715 /* CheckedOutTableController.swift in Sources */,
 				7B712B272174D97D00EC3957 /* VideoGameManager.swift in Sources */,
-				7B712B212174D2F600EC3957 /* VideoGameCell.swift in Sources */,
+				7B712B212174D2F600EC3957 /* InGameCell.swift in Sources */,
 				7B712B2B21753A7600EC3957 /* InfoViewController.swift in Sources */,
 				7B712B252174D43F00EC3957 /* VideoGame.swift in Sources */,
 			);

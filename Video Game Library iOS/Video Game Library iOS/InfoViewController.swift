@@ -9,6 +9,7 @@
 import UIKit
 class InfoViewController: UIViewController {
     
+    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var gameImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
@@ -23,6 +24,8 @@ class InfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        editButton.layer.cornerRadius = 6.0
+        editButton.layer.borderWidth = 2.0
         gameImageView.image = setupGame.image
         titleLabel.text = setupGame.name
         ratingLabel.text = setupGame.rating.rawValue
