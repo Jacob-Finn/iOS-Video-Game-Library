@@ -51,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1604AC2177BB4300B0B345 /* Misc. Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7B712B2A21753A7600EC3957 /* InfoViewController.swift */,
+				7BBCDBE321776C70001AB542 /* CreatorViewController.swift */,
+			);
+			path = "Misc. Controllers";
+			sourceTree = "<group>";
+		};
 		7B7A5F4E2174D21E0048ED54 = {
 			isa = PBXGroup;
 			children = (
@@ -76,8 +85,7 @@
 				7B7A5F632174D2200048ED54 /* LaunchScreen.storyboard */,
 				7B7A5F612174D2200048ED54 /* Assets.xcassets */,
 				7B7A5F662174D2200048ED54 /* Info.plist */,
-				7B712B2A21753A7600EC3957 /* InfoViewController.swift */,
-				7BBCDBE321776C70001AB542 /* CreatorViewController.swift */,
+				7B1604AC2177BB4300B0B345 /* Misc. Controllers */,
 				7B810A8C2176270E003CE715 /* Game Managment */,
 				7B810A8B217626F7003CE715 /* CheckedOutController */,
 				7B810A89217626B0003CE715 /* LibraryTableController */,

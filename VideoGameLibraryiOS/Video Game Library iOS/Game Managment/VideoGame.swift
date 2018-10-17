@@ -37,6 +37,16 @@ class VideoGame {
         self.image = setupImage()
     }
     
+    init (name: String, description: String, dueDate: String, checkedInDate: String, rating: Rating, genre: String, beenCheckedOut: Bool) {
+        self.name = name
+        self.description = description
+        self.dueDate = dueDate
+        self.beenCheckedOut = beenCheckedOut
+        self.rating = rating
+        self.checkedInDate = checkedInDate
+        self.genre = genre
+        self.image = setupImage()
+    }
     
     func setupImage() -> UIImage {
         guard let image = UIImage(named: self.name) else {

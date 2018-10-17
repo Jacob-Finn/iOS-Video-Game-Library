@@ -10,6 +10,10 @@ import UIKit
 
 class CreatorViewController: UIViewController {
     
+    // DUE DATE EDITOR NEEDS TO CHECK FOR PROPER FORMATTING MM/DD/YYYY
+    // WHEN WE CREATE THE EDITED VIDEO GAME WE NEED TO GRAB THE DATE AND MAKE SURE IT CONVERTS BEFORE ASSIGNING IT!
+    // MAKE THE EDITOR UNWIND TO THE CORRECT PLACE DEPENDING ON WHICH LIST YOU EDITED FROM TO BEGIN WITH
+    // CONSTRAINTS AND GENERAL APPERANCE
     
     
     @IBOutlet weak var imageView: UIImageView!
@@ -32,13 +36,13 @@ class CreatorViewController: UIViewController {
     
 
     
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        button.dismissDropDown()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
-
         
         if currentlySelectedIndex != -1 {
             if dataPassage == .inGameList {
@@ -76,6 +80,7 @@ class CreatorViewController: UIViewController {
         //button.widthAnchor.constraint(equalToConstant: 150).isActive = true
         button.widthAnchor.constraint(equalToConstant: ratingView.frame.width).isActive = true
         button.heightAnchor.constraint(equalToConstant: ratingView.frame.height).isActive = true
+        button.setupDropView()
         button.dropView.dropDownOptions = ["Everyone", "Teen", "Mature"]
         imageView.image = currentlySelectedGame.image
     }
@@ -84,16 +89,41 @@ class CreatorViewController: UIViewController {
     
     @IBAction func finishTapped(_ sender: Any) {
         
+
+        
         switch dataPassage {
         case .create:
-            print("no")
+            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: dueDateEditor.text!, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut)
+            VideoGameManager.inGameList.append(newGame)
         case .inGameList:
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, rating: .E, genre: genreEditor.text!)
+            print("adding things to ingame")
+            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: dueDateEditor.text!, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut)
+            VideoGameManager.inGameList.remove(at: currentlySelectedIndex)
+            VideoGameManager.inGameList.insert(newGame, at: currentlySelectedIndex)
         case .outGameList:
+            print("addings things to outgame")
+            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: dueDateEditor.text!, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut)
+            VideoGameManager.outGameList.remove(at: currentlySelectedIndex)
+            VideoGameManager.outGameList.insert(newGame, at: currentlySelectedIndex)
             print("no")
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// THIS IS STUFF FOR THE DROP DOWN BUTTON PAST THIS POINT.
 
 protocol dropDownProtocol {
     func dropDownPressed(string: String)
@@ -123,7 +153,7 @@ class DropDownButton: UIButton, dropDownProtocol {
         
     }
     
-    override func didMoveToSuperview() {
+    func setupDropView() {
         self.superview?.addSubview(dropView)
         dropView.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         dropView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
