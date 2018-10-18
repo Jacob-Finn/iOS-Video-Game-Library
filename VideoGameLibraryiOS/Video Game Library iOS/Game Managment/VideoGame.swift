@@ -37,7 +37,7 @@ class VideoGame {
         self.image = setupImage()
     }
     
-    init (name: String, description: String, dueDate: String, checkedInDate: String, rating: Rating, genre: String, beenCheckedOut: Bool) {
+    init (name: String, description: String, dueDate: String, checkedInDate: String, rating: Rating, genre: String, beenCheckedOut: Bool, image: UIImage) {
         self.name = name
         self.description = description
         self.dueDate = dueDate
@@ -45,7 +45,7 @@ class VideoGame {
         self.rating = rating
         self.checkedInDate = checkedInDate
         self.genre = genre
-        self.image = setupImage()
+        self.image = image
     }
     
     func setupImage() -> UIImage {
@@ -74,9 +74,6 @@ class VideoGame {
         self.checkedInDate = dateFormatter.string(from: today)
     }
     
-    func loadImage() {
-    }
-    
-        
+
 }
 

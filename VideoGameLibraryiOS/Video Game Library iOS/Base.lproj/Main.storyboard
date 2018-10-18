@@ -155,7 +155,11 @@
                         <viewLayoutGuide key="safeArea" id="bLc-xr-UNU"/>
                     </view>
                     <navigationItem key="navigationItem" title="Game Library" id="Tbu-vd-a6L">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="tLy-ly-cwc"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="tLy-ly-cwc">
+                            <connections>
+                                <action selector="addTapped:" destination="MPB-sQ-fYw" id="elw-LZ-MuV"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="AsS-T2-LIZ">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="w3P-ZO-6q1">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
@@ -170,16 +174,18 @@
                     <connections>
                         <outlet property="tableView" destination="PcX-I7-tp4" id="Vqz-ct-tFd"/>
                         <segue destination="ATo-sS-Bwo" kind="show" identifier="info" id="rhi-ls-SvP"/>
+                        <segue destination="Fwd-9L-gPd" kind="unwind" unwindAction="unwindToMainWithSegue:" id="AuJ-e7-iWp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMl-r3-iEJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Fwd-9L-gPd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="108.69565217391305" y="-53.571428571428569"/>
         </scene>
         <!--Checked Out Table View Controller-->
         <scene sceneID="6Os-ah-G1Y">
             <objects>
-                <viewController id="hcR-Jy-oSH" customClass="CheckedOutTableViewController" customModule="Video_Game_Library_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="out" id="hcR-Jy-oSH" customClass="CheckedOutTableViewController" customModule="Video_Game_Library_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8IU-Wj-DAR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -224,7 +230,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWU-9R-zrC">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWU-9R-zrC">
                                                     <rect key="frame" x="0.0" y="38.5" width="375" height="61"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="61" id="hmF-Nd-b4N"/>
@@ -307,8 +313,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="KfV-Up-tec" firstAttribute="trailing" secondItem="GzV-Mq-PRb" secondAttribute="trailing" id="Vuk-IN-08q"/>
-                            <constraint firstItem="GzV-Mq-PRb" firstAttribute="top" secondItem="KfV-Up-tec" secondAttribute="top" id="Y2W-uU-BHY"/>
                             <constraint firstItem="KfV-Up-tec" firstAttribute="bottom" secondItem="GzV-Mq-PRb" secondAttribute="bottom" id="dXQ-P1-mlJ"/>
+                            <constraint firstItem="GzV-Mq-PRb" firstAttribute="top" secondItem="KfV-Up-tec" secondAttribute="top" id="dkf-JJ-eer"/>
                             <constraint firstItem="GzV-Mq-PRb" firstAttribute="leading" secondItem="KfV-Up-tec" secondAttribute="leading" id="lEU-pE-P3c"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KfV-Up-tec"/>
@@ -412,7 +418,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1W-uQ-0WE">
                                 <rect key="frame" x="99" y="341" width="260" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="260" id="sj6-WH-CEH"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="260" id="sj6-WH-CEH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -431,6 +437,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SAO-hS-AMK" firstAttribute="trailing" secondItem="WjP-YQ-kdc" secondAttribute="trailing" constant="16" id="09e-0B-sin"/>
+                            <constraint firstItem="oBP-bE-v2k" firstAttribute="leading" secondItem="E4s-VS-1YO" secondAttribute="leading" id="0pL-Sw-I2h"/>
                             <constraint firstItem="Xf9-2b-u5P" firstAttribute="top" secondItem="K53-At-XbU" secondAttribute="bottom" constant="10" id="3tG-JK-Er2"/>
                             <constraint firstItem="E4s-VS-1YO" firstAttribute="top" secondItem="Lor-ZZ-2VT" secondAttribute="bottom" constant="32" id="8oz-LH-ND1"/>
                             <constraint firstItem="0wo-jJ-FCl" firstAttribute="leading" secondItem="oBP-bE-v2k" secondAttribute="leading" id="AQr-3o-QOZ"/>
@@ -491,6 +498,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="w58-eQ-Llw"/>
+        <segue reference="rhi-ls-SvP"/>
     </inferredMetricsTieBreakers>
 </document>

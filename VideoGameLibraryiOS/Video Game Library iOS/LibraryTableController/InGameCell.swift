@@ -22,18 +22,18 @@ class InGameCell : UITableViewCell {
     
     
     
-    func setup(to videoGame: VideoGame) {
+    func setup(to game: VideoGame) {
         print("setting up")
         moreInfoButton.isHidden = true
         deleteButton.isHidden = true
         checkoutButton.isHidden = true
         
-        descriptionLabel.text = "\(videoGame.description)\nRating: \(videoGame.rating.rawValue)"
-        nameLabel.text = videoGame.name
-        if videoGame.checkedInDate != "" {
+        descriptionLabel.text = "\(game.description)\nRating: \(game.rating.rawValue)"
+        nameLabel.text = game.name
+        if game.checkedInDate != "" {
             dateLabel.isHidden = false
             staticDueDateLabel.isHidden = false
-            dateLabel.text = videoGame.checkedInDate
+            dateLabel.text = game.checkedInDate
         } else {
             dateLabel.isHidden = true
             staticDueDateLabel.isHidden = true

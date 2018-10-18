@@ -8,14 +8,13 @@
 
 import UIKit
 
-class CreatorViewController: UIViewController {
-    
-    // DUE DATE EDITOR NEEDS TO CHECK FOR PROPER FORMATTING MM/DD/YYYY
-    // WHEN WE CREATE THE EDITED VIDEO GAME WE NEED TO GRAB THE DATE AND MAKE SURE IT CONVERTS BEFORE ASSIGNING IT!
-    // MAKE THE EDITOR UNWIND TO THE CORRECT PLACE DEPENDING ON WHICH LIST YOU EDITED FROM TO BEGIN WITH
-    // CONSTRAINTS AND GENERAL APPERANCE
+class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
+    
+
+    
+    @IBOutlet weak var finishButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var ratingView: UIView!
     @IBOutlet weak var dueDateLabel: UILabel!
@@ -31,26 +30,94 @@ class CreatorViewController: UIViewController {
         case outGameList
         case create
     }
+    var setDueDate = ""
     var dataPassage: DataPassage = .inGameList
     var button = DropDownButton()
+    let imagePicker = UIImagePickerController()
     
-
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         button.dismissDropDown()
     }
     
+    
+    @IBAction func dateEditingChanged(_ sender: Any) {
+        var savedText: String // Allows for easy modification of text
+        if dueDateEditor.text?.count == 2 {
+            savedText = dueDateEditor.text!
+            savedText.append("/")
+            dueDateEditor.text = savedText
+        }
+        if dueDateEditor.text?.count == 5 {
+            savedText = dueDateEditor.text!
+            savedText.append("/")
+            dueDateEditor.text = savedText
+        }
+        if dueDateEditor.text?.count == 10 {
+            savedText = dueDateEditor.text!
+            savedText.removeLast()
+        }
+    }
+    
+    @IBAction func dateEditingBegan(_ sender: Any) {
+       dueDateEditor.text = ""
+    }
+    
+    @IBAction func dateEditorFinished(_ sender: UITextField) {
+        if dueDateEditor.text == "" {
+            dueDateEditor.text = setDueDate
+            return
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yyyy"
+            if let dueDate = dateFormatter.date(from: dueDateEditor.text!) {
+                print("valid date")
+                setDueDate = dateFormatter.string(from: dueDate)
+                print("/n/n/n/n/m \(setDueDate)/n/n")
+            } else { //Invalid date
+                dueDateEditor.text = "Invalid date!"
+                print("invalid date")
+            }
+        }
+    }
+    
+    
+    @IBAction func loadImageTapped(_ sender: Any) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = pickedImage
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imagePicker.delegate = self
         
         if currentlySelectedIndex != -1 {
             if dataPassage == .inGameList {
                 currentlySelectedGame = VideoGameManager.inGameList[currentlySelectedIndex]
+                
             } else {
                 currentlySelectedGame = VideoGameManager.outGameList[currentlySelectedIndex]
             }
         }
+        setDueDate = currentlySelectedGame.dueDate
         titleEditor.text = currentlySelectedGame.name
         genreEditor.text = currentlySelectedGame.genre
         descriptionEditor.text = currentlySelectedGame.description
@@ -66,6 +133,12 @@ class CreatorViewController: UIViewController {
         }
         descriptionEditor.layer.borderWidth = 2
         
+        
+        imageView.image = currentlySelectedGame.image
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         button = DropDownButton.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         button.setTitle("\(currentlySelectedGame.rating.rawValue)", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
@@ -82,31 +155,36 @@ class CreatorViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: ratingView.frame.height).isActive = true
         button.setupDropView()
         button.dropView.dropDownOptions = ["Everyone", "Teen", "Mature"]
-        imageView.image = currentlySelectedGame.image
     }
-    
     
     
     @IBAction func finishTapped(_ sender: Any) {
         
-
+        
         
         switch dataPassage {
         case .create:
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: dueDateEditor.text!, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut)
+            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
             VideoGameManager.inGameList.append(newGame)
+            self.performSegue(withIdentifier: "unwindToMain", sender: self)
+            
+            
         case .inGameList:
             print("adding things to ingame")
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: dueDateEditor.text!, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut)
+            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
             VideoGameManager.inGameList.remove(at: currentlySelectedIndex)
             VideoGameManager.inGameList.insert(newGame, at: currentlySelectedIndex)
+            self.performSegue(withIdentifier: "unwindToMain", sender: self)
+            
         case .outGameList:
             print("addings things to outgame")
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: dueDateEditor.text!, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut)
+            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
             VideoGameManager.outGameList.remove(at: currentlySelectedIndex)
             VideoGameManager.outGameList.insert(newGame, at: currentlySelectedIndex)
-            print("no")
+            self.performSegue(withIdentifier: "unwindToOut", sender: self)
         }
+        
+        
     }
 }
 

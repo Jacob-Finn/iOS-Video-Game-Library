@@ -80,7 +80,6 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
             let game2 = VideoGame(name: "Minecraft", description: "Mine diamonds", rating: .E, genre: "Sandbox")
             VideoGameManager.inGameList.append(game1)
             VideoGameManager.inGameList.append(game2)
-            game1.loadImage()
             VideoGameManager.setup = true
         }
     }
@@ -102,6 +101,13 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
         tableView.reloadData()
     }
     
+    
+    @IBAction func addTapped(_ sender: Any) {
+        let creatorView: UIStoryboard = UIStoryboard(name: "Creator", bundle: nil)
+        let creatorVC = creatorView.instantiateViewController(withIdentifier: "create") as! CreatorViewController
+            creatorVC.dataPassage = .create
+        self.present(creatorVC, animated: false, completion: nil)
+    }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)

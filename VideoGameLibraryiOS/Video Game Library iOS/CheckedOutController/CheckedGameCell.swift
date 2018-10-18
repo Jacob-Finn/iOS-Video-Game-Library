@@ -20,7 +20,7 @@ class CheckedGameCell: UITableViewCell {
     
     func setup(to game: VideoGame) {
         titleLabel.text = game.name
-        descriptionLabel.text = game.description
+        descriptionLabel.text = "\(game.description)\nRating: \(game.rating.rawValue)"
         dueDateLabel.text = game.dueDate
         
         moreInfoButton.isHidden = true

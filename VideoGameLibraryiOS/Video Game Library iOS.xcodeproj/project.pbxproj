@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B1604AE2178E1BF00B0B345 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1604AD2178E1BE00B0B345 /* DateManager.swift */; };
 		7B553A7621766195007F550B /* Creator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B553A7521766195007F550B /* Creator.storyboard */; };
 		7B712B212174D2F600EC3957 /* InGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B202174D2F600EC3957 /* InGameCell.swift */; };
 		7B712B232174D36400EC3957 /* LibraryTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B712B222174D36400EC3957 /* LibraryTableController.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B1604AD2178E1BE00B0B345 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		7B553A7521766195007F550B /* Creator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Creator.storyboard; sourceTree = "<group>"; };
 		7B712B202174D2F600EC3957 /* InGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InGameCell.swift; sourceTree = "<group>"; };
 		7B712B222174D36400EC3957 /* LibraryTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableController.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			children = (
 				7B712B262174D97D00EC3957 /* VideoGameManager.swift */,
 				7B712B242174D43F00EC3957 /* VideoGame.swift */,
+				7B1604AD2178E1BE00B0B345 /* DateManager.swift */,
 			);
 			path = "Game Managment";
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B712B232174D36400EC3957 /* LibraryTableController.swift in Sources */,
+				7B1604AE2178E1BF00B0B345 /* DateManager.swift in Sources */,
 				7BBCDBE421776C70001AB542 /* CreatorViewController.swift in Sources */,
 				7B810A8E217628C7003CE715 /* CheckedGameCell.swift in Sources */,
 				7B7A5F5B2174D21E0048ED54 /* AppDelegate.swift in Sources */,
