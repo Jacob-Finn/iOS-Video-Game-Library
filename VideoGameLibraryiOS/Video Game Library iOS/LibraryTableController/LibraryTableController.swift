@@ -10,6 +10,8 @@ import UIKit
 
 class LibraryTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // The main view controller. It handles the games that are inside the library. Works very closly to the
+    // CheckedOutViewController.
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -46,21 +48,22 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
+    // Whenever the checkout button is pressed, we'll call this function which will tell the game it should
+    // check out, and then that it should reload the row with the animation sliding to the right, and when it
+    // slides to the right, it is deleted.
     @objc func checkOut(sender: UIButton) {
         let cell = tableView.cellForRow(at: currentlySelectedIndex) as? InGameCell
         cell?.onUnselection()
         VideoGameManager.inGameList[sender.tag].checkOut()
         VideoGameManager.outGameList.append(VideoGameManager.inGameList[sender.tag])
+        tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.right)
         VideoGameManager.inGameList.remove(at: sender.tag)
         tableView.reloadData()
     }
     
+    // deletes the selected cell completely.
     @objc func deleteCell(sender: UIButton) {
-        let animator = UIViewPropertyAnimator(duration: 2, curve: .easeIn)
-        animator.addAnimations {
-            // Fix me later so the cell slides off screen and deletes
-        }
-        animator.startAnimation()
+        tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.left)
         VideoGameManager.inGameList.remove(at: sender.tag)
         tableView.reloadData()
     }
@@ -83,6 +86,8 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
             VideoGameManager.setup = true
         }
     }
+    // Whenever we are moving away from the screen, if we have a cell selected we need to make sure to call its
+    // onUnselection, or else we'll have a cell that has buttons still on display when we return to the screen.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if currentlySelectedIndex != [] { // Basically if it is nil
@@ -94,14 +99,16 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
-    
+    // Whenever we are going to show the view, to be safe we'll go ahead and reload the tablecell.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("View disappearing.")
         tableView.reloadData()
     }
     
-    
+    // Whenever the add button is tapped, we instantiate the Creator view controller with the dataPassage of
+    // .create, this tells the Creator class how it needs to create the VideoGame, like if you're suppose to
+    // editing and replacing a video game in the out list, in list, or if nothing needs to be replaced and it
+    // is a brand new game, thus, we have the .create.
     @IBAction func addTapped(_ sender: Any) {
         let creatorView: UIStoryboard = UIStoryboard(name: "Creator", bundle: nil)
         let creatorVC = creatorView.instantiateViewController(withIdentifier: "create") as! CreatorViewController
@@ -110,6 +117,8 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
+    // If we're going to go to the InfoViewController from the more info button, we'll pass in some essential
+    // information for it to load the game and display it.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if segue.destination is InfoViewController

@@ -21,12 +21,23 @@ class InGameCell : UITableViewCell {
     
     
     
-    
+    /* Whenever the cell is started we will set up the cell. We will hide the buttons and adjust their look so
+     that they look good. We will then set up the basic things like the description and title, and if the
+     game had ever been checked in before, we will add the date. Otherwise, we will hide the checked in label.
+     */
     func setup(to game: VideoGame) {
         print("setting up")
+        
+        moreInfoButton.layer.cornerRadius = 4.0
+        deleteButton.layer.cornerRadius = 4.0
+        checkoutButton.layer.cornerRadius = 4.0
+        
+        
         moreInfoButton.isHidden = true
         deleteButton.isHidden = true
         checkoutButton.isHidden = true
+        
+    
         
         descriptionLabel.text = "\(game.description)\nRating: \(game.rating.rawValue)"
         nameLabel.text = game.name
@@ -43,14 +54,19 @@ class InGameCell : UITableViewCell {
         checkoutButton.alpha = 0.0
     }
     
+    
+    // When the cell is selected from the view controller we will call this function to hide the description and
+    // reveal the buttons in an animation that changes their alpha.
     func onSelection() {
         descriptionLabel.isHidden = true
         deleteButton.isHidden = false
         checkoutButton.isHidden = false
         moreInfoButton.isHidden = false
         onSelectionAnimation()
-        
     }
+    
+    // Whenever another cell is selected, we will call this function to remove the buttons and fade back to the
+    // description.
     func onUnselection() {
         moreInfoButton.backgroundColor = UIColor.gray
         deleteButton.backgroundColor = UIColor.red
@@ -64,6 +80,7 @@ class InGameCell : UITableViewCell {
     }
     
     
+     // Basic alpha animation transitions.
     func onSelectionAnimation() {
         let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn)
         animator.addAnimations {

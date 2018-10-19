@@ -10,6 +10,10 @@ import UIKit
 
 class CheckedGameCell: UITableViewCell {
     
+    
+    // As checkedGameCell is super similar to InGameCell, I'll comment over the program there.
+    
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dueDateLabel: UILabel!
@@ -18,7 +22,12 @@ class CheckedGameCell: UITableViewCell {
     @IBOutlet weak var checkInButton: UIButton!
     
     
+    
     func setup(to game: VideoGame) {
+        moreInfoButton.layer.cornerRadius = 4.0
+        deleteButton.layer.cornerRadius = 4.0
+        checkInButton.layer.cornerRadius = 4.0
+        
         titleLabel.text = game.name
         descriptionLabel.text = "\(game.description)\nRating: \(game.rating.rawValue)"
         dueDateLabel.text = game.dueDate

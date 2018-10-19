@@ -12,7 +12,10 @@ class VideoGameManager {
     
     // DELETE THIS LATER
     static var setup = false
-    //--------------
+    //-------------- This is only used until persistance is implemented
+    
+    
+    // This class just handles the static arrays of games.
     static var outGameList = [VideoGame]()
     static var inGameList = [VideoGame]()
 }

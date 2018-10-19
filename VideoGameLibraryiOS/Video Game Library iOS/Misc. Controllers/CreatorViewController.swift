@@ -8,11 +8,11 @@
 
 import UIKit
 
-class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     
     
-
+    
     
     @IBOutlet weak var finishButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
@@ -36,12 +36,19 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imagePicker = UIImagePickerController()
     
     
+    
+    // ----- ----- ----- ---- --- -- -
+    
+    // The drop down button can cause a crash with bound issues if it isn't closed before the view
+    // disappears.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         button.dismissDropDown()
     }
     
     
+    // The dateEditor only allows for numbers, so as the user is typing, we'll add the / for them to be
+    // used in the dateFormatter
     @IBAction func dateEditingChanged(_ sender: Any) {
         var savedText: String // Allows for easy modification of text
         if dueDateEditor.text?.count == 2 {
@@ -60,10 +67,15 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
+    // Whenever the user clicks on the date editor field, we'll wipe the text field as the user cannot delete
+    // the / that are added.
     @IBAction func dateEditingBegan(_ sender: Any) {
-       dueDateEditor.text = ""
+        dueDateEditor.text = ""
     }
     
+    // whenever the user clicks away from the dateEditor, we'll finalize their decision and if we can covert
+    // the date, we'll set the game's new duedate, if we can't we'll keep the old due date and tell the user
+    // that their date was invalid.
     @IBAction func dateEditorFinished(_ sender: UITextField) {
         if dueDateEditor.text == "" {
             dueDateEditor.text = setDueDate
@@ -82,7 +94,8 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    
+    // Whenever the user clicks on the game's image, we'll load up an ImagePicker so that they can add an image
+    // from their photo library.
     @IBAction func loadImageTapped(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
@@ -108,7 +121,10 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         super.viewDidLoad()
         
         imagePicker.delegate = self
+        dueDateEditor.delegate = self
         
+        // If the Index is the default -1 then there will be no game passed in for setup.
+        // then we will just have a blank canvas for game creation.
         if currentlySelectedIndex != -1 {
             if dataPassage == .inGameList {
                 currentlySelectedGame = VideoGameManager.inGameList[currentlySelectedIndex]
@@ -132,13 +148,15 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
             dueDateLabel.isHidden = true
         }
         descriptionEditor.layer.borderWidth = 2
-        
-        
         imageView.image = currentlySelectedGame.image
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // Here we setup and create the drop down button, while I can't be credit for the entire idea. I can
+        // be credited for some of it, I customized the button that was created and set up the bounds for where
+        // the button will be, this wasn't in the tutorial and I also fixed a fatal crash/bug that wasn't mentioned
+        // in the tutorial
         button = DropDownButton.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         button.setTitle("\(currentlySelectedGame.rating.rawValue)", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
@@ -146,47 +164,69 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         button.contentHorizontalAlignment = .left
         button.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(button)
-        //button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         button.centerXAnchor.constraint(equalTo: ratingView.centerXAnchor).isActive = true
-        //button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         button.centerYAnchor.constraint(equalTo: ratingView.centerYAnchor).isActive = true
-        //button.widthAnchor.constraint(equalToConstant: 150).isActive = true
         button.widthAnchor.constraint(equalToConstant: ratingView.frame.width).isActive = true
         button.heightAnchor.constraint(equalToConstant: ratingView.frame.height).isActive = true
         button.setupDropView()
         button.dropView.dropDownOptions = ["Everyone", "Teen", "Mature"]
     }
     
-    
+    // Whenever the finish button is tapped, we will run through all the editors and make sure that something is
+    // set, if not, we'll display an error, from there the user can either return to make the changes, or press
+    // the home button to go back to the main game library.
     @IBAction func finishTapped(_ sender: Any) {
-        
-        
-        
-        switch dataPassage {
-        case .create:
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
-            VideoGameManager.inGameList.append(newGame)
-            self.performSegue(withIdentifier: "unwindToMain", sender: self)
+        if titleEditor.text == "" || descriptionEditor.text == "" || genreEditor.text == "" {
             
+            let alert = UIAlertController(title: "Error!", message: "All fields must be filled out!", preferredStyle: .alert)
             
-        case .inGameList:
-            print("adding things to ingame")
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
-            VideoGameManager.inGameList.remove(at: currentlySelectedIndex)
-            VideoGameManager.inGameList.insert(newGame, at: currentlySelectedIndex)
-            self.performSegue(withIdentifier: "unwindToMain", sender: self)
-            
-        case .outGameList:
-            print("addings things to outgame")
-            let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
-            VideoGameManager.outGameList.remove(at: currentlySelectedIndex)
-            VideoGameManager.outGameList.insert(newGame, at: currentlySelectedIndex)
-            self.performSegue(withIdentifier: "unwindToOut", sender: self)
+            alert.addAction(UIAlertAction(title: "Return", style: .default, handler: { action in
+                return
+            }))
+            alert.addAction(UIAlertAction(title: "Home", style: .default, handler: { action in
+                self.performSegue(withIdentifier: "unwindToMain", sender: self)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+        createGame()
+        }
+    }
+    
+    // Depending on the dataPassage that was set on the segue to this viewcontroller, the game that will be added
+    // will be added in different ways.
+        func createGame () {
+            switch dataPassage {
+            case .create:
+                // If the dataPassage was create, then we know this is a brand new game and should just be
+                // appended to the LibraryList.
+                let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
+                VideoGameManager.inGameList.append(newGame)
+                self.performSegue(withIdentifier: "unwindToMain", sender: self)
+                
+                
+            case .inGameList:
+                // If the dataPassage was .inGameList then we know that this is an existing game that needs to be
+                // removed at the index and then recreated there inside of the InGameList array
+                // then we will return the inGameTable
+                let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
+                VideoGameManager.inGameList.remove(at: currentlySelectedIndex)
+                VideoGameManager.inGameList.insert(newGame, at: currentlySelectedIndex)
+                self.performSegue(withIdentifier: "unwindToMain", sender: self)
+                
+            case .outGameList:
+                // If the dataPassage was .outGameList then we know that this is an existing game that needs to be
+                // removed at the index and then recreated there inside of the outGameList array
+                // then we will return the outGameTable
+                let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
+                VideoGameManager.outGameList.remove(at: currentlySelectedIndex)
+                VideoGameManager.outGameList.insert(newGame, at: currentlySelectedIndex)
+                self.performSegue(withIdentifier: "unwindToOut", sender: self)
+            }
         }
         
         
     }
-}
+
 
 
 
@@ -334,3 +374,4 @@ class DropDownView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
 }
+

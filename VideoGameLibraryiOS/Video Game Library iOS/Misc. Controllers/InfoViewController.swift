@@ -9,6 +9,7 @@
 import UIKit
 class InfoViewController: UIViewController {
     
+    
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var gameImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!

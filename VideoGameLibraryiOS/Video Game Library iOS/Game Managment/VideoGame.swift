@@ -34,7 +34,7 @@ class VideoGame {
         self.rating = rating
         self.checkedInDate = ""
         self.genre = genre
-        self.image = setupImage()
+        self.image = setupImage() // The videogame will try to set its image = to its name if it exists
     }
     
     init (name: String, description: String, dueDate: String, checkedInDate: String, rating: Rating, genre: String, beenCheckedOut: Bool, image: UIImage) {
@@ -48,12 +48,15 @@ class VideoGame {
         self.image = image
     }
     
+
     func setupImage() -> UIImage {
         guard let image = UIImage(named: self.name) else {
             let errorImage = UIImage(named: "missingImage")
             return errorImage!
         }
         return image
+        // If the image doesn't exist, we just set up a default missingImage picture, the users can always change
+        // this later.
     }
     
     func checkOut() {
