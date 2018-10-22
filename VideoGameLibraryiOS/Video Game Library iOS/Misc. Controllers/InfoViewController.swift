@@ -27,7 +27,7 @@ class InfoViewController: UIViewController {
     
     var dataPassage: DataPassage = .inGameList
     var setupGameLocation = 0 // then we'll grab the specific number and then set up the setupGame variable.
-    var setupGame = VideoGame() // ***********CHANGE
+    var setupGame = VideoGame()
     
     override func viewDidLoad() {
         super.viewDidLoad()

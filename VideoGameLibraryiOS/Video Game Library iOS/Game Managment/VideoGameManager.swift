@@ -12,7 +12,8 @@ class VideoGameManager {
     
     
     
-    // This class just handles the static arrays of games.
+    // This class handles anything relating to the creation and deletion of VideoGames and their containing arrays
+    
     static var outGameList = [VideoGame]()
     static var inGameList = [VideoGame]()
     
