@@ -16,6 +16,7 @@ class VideoGameManager {
     static var outGameList = [VideoGame]()
     static var inGameList = [VideoGame]()
     
+    // The setup function reassigns the InGameList and OutGameList based on the currently avaible realm data
     static func setUp() {
         let inGameListFilter: [VideoGame] = DataManager.sharedInstance.objectsArray.filter { $0.beenCheckedOut == false }
         inGameList = inGameListFilter
@@ -25,7 +26,7 @@ class VideoGameManager {
     
     
     
-    
+    // The new init for the video game function that also adds the game into the realm data base at the end.
     static func createGame(name: String, description: String, rating: String, dueDate: String, beenCheckedOut: Bool, image: String, genre: String) {
         let videoGame = VideoGame()
         videoGame.name = name

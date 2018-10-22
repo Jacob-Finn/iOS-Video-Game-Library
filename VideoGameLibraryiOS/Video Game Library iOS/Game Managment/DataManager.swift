@@ -10,8 +10,10 @@ import Foundation
 import RealmSwift
 
 class DataManager {
-
-static var sharedInstance = DataManager()
+    // Handles all realm data management.
+    
+    
+    static var sharedInstance = DataManager()
     let realm = try! Realm()
     var objectsArray: Results<VideoGame> {
         get {
@@ -20,7 +22,7 @@ static var sharedInstance = DataManager()
     }
     
     
-private init () {
-}
+    private init () {
+    }
 }
 

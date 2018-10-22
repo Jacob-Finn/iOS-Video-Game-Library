@@ -96,6 +96,8 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // Whenever the user clicks on the game's image, we'll load up an ImagePicker so that they can add an image
     // from their photo library.
+    // This used to work, but with Realm persistance, I haven't found a very good solution with implementing it
+    // just yet.
     @IBAction func loadImageTapped(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
@@ -137,7 +139,8 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         titleEditor.text = currentlySelectedGame.name
         genreEditor.text = currentlySelectedGame.genre
         descriptionEditor.text = currentlySelectedGame.gameDescription
-        if currentlySelectedGame.beenCheckedOut {
+        if currentlySelectedGame.beenCheckedOut || dataPassage == .create { // If the game isn't checked out or
+            // the creator is in "create" mode, we don't need to show a due date.
             dueDateEditor.isHidden = false
             dueDateLabel.isHidden = false
             dateLabel.isHidden = false

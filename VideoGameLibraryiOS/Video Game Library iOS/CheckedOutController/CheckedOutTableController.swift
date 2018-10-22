@@ -65,22 +65,23 @@ class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITa
             VideoGameManager.outGameList[sender.tag].checkIn()
         }
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.left)
-        VideoGameManager.setUp()
+        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
+    // delete cell
     @objc func deleteCell(sender: UIButton) {
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.right)
         try! DataManager.sharedInstance.realm.write {
             DataManager.sharedInstance.realm.delete(VideoGameManager.outGameList[sender.tag])
         }
-        VideoGameManager.setUp()
+        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
     @objc func showMoreInfo(sender: UIButton) {
         performSegue(withIdentifier: "info", sender: self)
-        // Show more info over the selected object later!
+        // Show more info over the selected object.
     }
     
     override func viewDidLoad() {

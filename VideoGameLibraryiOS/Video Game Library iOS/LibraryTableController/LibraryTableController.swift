@@ -16,7 +16,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var tableView: UITableView!
     
     var currentlySelectedGame = VideoGame()
-    var currentlySelectedIndex = IndexPath.init()
+    var currentlySelectedIndex = IndexPath.init() // Used to manage the currently selected cell/game
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
@@ -58,7 +58,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
             VideoGameManager.inGameList[sender.tag].checkOut()
         }
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.right)
-        VideoGameManager.setUp()
+        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
@@ -69,7 +69,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
         try! DataManager.sharedInstance.realm.write {
             DataManager.sharedInstance.realm.delete(VideoGameManager.inGameList[sender.tag])
         }
-        VideoGameManager.setUp()
+        VideoGameManager.setUp() We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
