@@ -13,7 +13,7 @@
         <scene sceneID="ErE-4g-mcg">
             <objects>
                 <viewController storyboardIdentifier="create" id="FeA-Fo-W0P" customClass="CreatorViewController" customModule="Video_Game_Library_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gmo-Uv-JQF">
+                    <view key="view" contentMode="scaleToFill" id="gmo-Uv-JQF" userLabel="creator">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -85,13 +85,12 @@
                                     <constraint firstAttribute="height" constant="128" id="XKT-AF-aIU"/>
                                 </constraints>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Te-JJ-HZe">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" text="Change me!" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Te-JJ-HZe">
                                 <rect key="frame" x="14" y="424" width="347" height="131"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="131" id="Wc9-c4-S8d"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -213,21 +212,6 @@
                 <exit id="BoJ-wy-Njg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="72.799999999999997" y="-85.007496251874073"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="yaU-0b-dl7">
-            <objects>
-                <viewController id="TaT-Cg-iMT" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="d6a-Zs-FCk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="y2i-iE-45c"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Iib-1d-5tH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="974" y="-85"/>
         </scene>
     </scenes>
 </document>

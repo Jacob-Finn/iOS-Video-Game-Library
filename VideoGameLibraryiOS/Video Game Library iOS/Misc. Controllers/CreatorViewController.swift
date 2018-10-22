@@ -24,12 +24,13 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var genreEditor: UITextField!
     @IBOutlet weak var titleEditor: UITextField!
     var currentlySelectedIndex = -1
-    var currentlySelectedGame = VideoGame(name: "", description: "", rating: .E, genre: "")
+    var currentlySelectedGame = VideoGame()
     enum DataPassage {
         case inGameList
         case outGameList
         case create
     }
+    var originalDueDate = ""
     var setDueDate = ""
     var dataPassage: DataPassage = .inGameList
     var button = DropDownButton()
@@ -96,6 +97,8 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // Whenever the user clicks on the game's image, we'll load up an ImagePicker so that they can add an image
     // from their photo library.
+    // This used to work, but with Realm persistance, I haven't found a very good solution with implementing it
+    // just yet.
     @IBAction func loadImageTapped(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
@@ -133,11 +136,12 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
                 currentlySelectedGame = VideoGameManager.outGameList[currentlySelectedIndex]
             }
         }
-        setDueDate = currentlySelectedGame.dueDate
+        originalDueDate = currentlySelectedGame.dueDate
         titleEditor.text = currentlySelectedGame.name
         genreEditor.text = currentlySelectedGame.genre
-        descriptionEditor.text = currentlySelectedGame.description
-        if currentlySelectedGame.beenCheckedOut {
+        descriptionEditor.text = currentlySelectedGame.gameDescription
+        if currentlySelectedGame.beenCheckedOut || dataPassage == .create { // If the game isn't checked out or
+            // the creator is in "create" mode, we don't need to show a due date.
             dueDateEditor.isHidden = false
             dueDateLabel.isHidden = false
             dateLabel.isHidden = false
@@ -148,7 +152,7 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
             dueDateLabel.isHidden = true
         }
         descriptionEditor.layer.borderWidth = 2
-        imageView.image = currentlySelectedGame.image
+        imageView.image = currentlySelectedGame.loadImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -158,7 +162,11 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         // the button will be, this wasn't in the tutorial and I also fixed a fatal crash/bug that wasn't mentioned
         // in the tutorial
         button = DropDownButton.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        button.setTitle("\(currentlySelectedGame.rating.rawValue)", for: .normal)
+        if currentlySelectedGame.rating != "" {
+            button.setTitle("\(currentlySelectedGame.rating)", for: .normal)
+        } else {
+            button.setTitle("Tap me!", for: .normal)
+        }
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.contentHorizontalAlignment = .left
@@ -170,6 +178,7 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         button.heightAnchor.constraint(equalToConstant: ratingView.frame.height).isActive = true
         button.setupDropView()
         button.dropView.dropDownOptions = ["Everyone", "Teen", "Mature"]
+        
     }
     
     // Whenever the finish button is tapped, we will run through all the editors and make sure that something is
@@ -188,44 +197,62 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-        createGame()
+            createGame()
         }
     }
     
     // Depending on the dataPassage that was set on the segue to this viewcontroller, the game that will be added
     // will be added in different ways.
-        func createGame () {
-            switch dataPassage {
-            case .create:
-                // If the dataPassage was create, then we know this is a brand new game and should just be
-                // appended to the LibraryList.
-                let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
-                VideoGameManager.inGameList.append(newGame)
-                self.performSegue(withIdentifier: "unwindToMain", sender: self)
-                
-                
-            case .inGameList:
-                // If the dataPassage was .inGameList then we know that this is an existing game that needs to be
-                // removed at the index and then recreated there inside of the InGameList array
-                // then we will return the inGameTable
-                let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
-                VideoGameManager.inGameList.remove(at: currentlySelectedIndex)
-                VideoGameManager.inGameList.insert(newGame, at: currentlySelectedIndex)
-                self.performSegue(withIdentifier: "unwindToMain", sender: self)
-                
-            case .outGameList:
-                // If the dataPassage was .outGameList then we know that this is an existing game that needs to be
-                // removed at the index and then recreated there inside of the outGameList array
-                // then we will return the outGameTable
-                let newGame = VideoGame(name: titleEditor.text!, description: descriptionEditor.text, dueDate: setDueDate, checkedInDate: currentlySelectedGame.checkedInDate, rating: Rating(rawValue: (button.titleLabel?.text)!)!, genre: genreEditor.text!, beenCheckedOut: currentlySelectedGame.beenCheckedOut, image: imageView.image!)
-                VideoGameManager.outGameList.remove(at: currentlySelectedIndex)
-                VideoGameManager.outGameList.insert(newGame, at: currentlySelectedIndex)
-                self.performSegue(withIdentifier: "unwindToOut", sender: self)
+    func createGame () {
+        switch dataPassage {
+        case .create:
+            // If the dataPassage was create, then we know this is a brand new game and should just be
+            // appended to the LibraryList.
+            
+            VideoGameManager.createGame(name: titleEditor.text!, description: descriptionEditor.text!, rating: (button.titleLabel?.text!)!, dueDate: "", beenCheckedOut: false, image: "", genre: genreEditor.text!)
+            VideoGameManager.setUp()
+            self.performSegue(withIdentifier: "unwindToMain", sender: self)
+            
+            
+        case .inGameList:
+            // If the dataPassage was .inGameList then we know that this is an existing game that needs to be
+            // removed at the index and then recreated there inside of the InGameList array
+            // then we will return the inGameTable
+            try! DataManager.sharedInstance.realm.write {
+                DataManager.sharedInstance.realm.delete(VideoGameManager.inGameList[currentlySelectedIndex])
             }
+            
+            
+            VideoGameManager.createGame(name: titleEditor.text!, description: descriptionEditor.text!, rating: (button.titleLabel?.text!)!, dueDate: "", beenCheckedOut: false, image: "", genre: genreEditor.text!)
+            VideoGameManager.setUp()
+            self.performSegue(withIdentifier: "unwindToMain", sender: self)
+            
+        case .outGameList:
+            
+            // If the dataPassage was .outGameList then we know that this is an existing game that needs to be
+            // removed at the index and then recreated there inside of the outGameList array
+            // then we will return the outGameTable
+            try! DataManager.sharedInstance.realm.write {
+                DataManager.sharedInstance.realm.delete(VideoGameManager.outGameList[currentlySelectedIndex])
+            }
+            
+            // Used to make sure that a date is set that isn't an error before we initate the new object.
+            dueDateEditor.endEditing(true)
+            if setDueDate == "" {
+                setDueDate = originalDueDate
+            } else if dueDateEditor.text != "Invalid date!" || dueDateEditor.text != "" {
+                setDueDate = dueDateEditor.text!
+            }
+            
+            VideoGameManager.createGame(name: titleEditor.text!, description: descriptionEditor.text!, rating: (button.titleLabel?.text!)!, dueDate: setDueDate, beenCheckedOut: true, image: "", genre: genreEditor.text!)
+            VideoGameManager.setUp()
+            self.performSegue(withIdentifier: "unwindToOut", sender: self)
         }
-        
-        
     }
+    
+    
+    
+}
 
 
 

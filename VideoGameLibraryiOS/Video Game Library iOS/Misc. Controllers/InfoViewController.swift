@@ -27,7 +27,7 @@ class InfoViewController: UIViewController {
     
     var dataPassage: DataPassage = .inGameList
     var setupGameLocation = 0 // then we'll grab the specific number and then set up the setupGame variable.
-    var setupGame = VideoGame(name: "", description: "", rating: .E, genre: "") // this allows for easy editing.
+    var setupGame = VideoGame() // ***********CHANGE
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,17 +35,17 @@ class InfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if dataPassage == .inGameList {
-           setupGame = VideoGameManager.inGameList[setupGameLocation]
+            setupGame = VideoGameManager.inGameList[setupGameLocation]
         } else {
             setupGame = VideoGameManager.outGameList[setupGameLocation]
         }
         genreLabel.text = setupGame.genre
         editButton.layer.cornerRadius = 6.0
         editButton.layer.borderWidth = 2.0
-        gameImageView.image = setupGame.image
+        gameImageView.image = setupGame.loadImage()
         titleLabel.text = setupGame.name
-        ratingLabel.text = setupGame.rating.rawValue
-        descriptionLabel.text = setupGame.description
+        ratingLabel.text = setupGame.rating
+        descriptionLabel.text = setupGame.gameDescription
         
         if setupGame.dueDate != "" {
             staticTurnInLabel.isHidden = false
@@ -73,7 +73,7 @@ class InfoViewController: UIViewController {
     }
     
     
-   
+    
     
     
     

@@ -19,8 +19,6 @@ class InGameCell : UITableViewCell {
     @IBOutlet weak var checkoutButton: UIButton!
     
     
-    
-    
     /* Whenever the cell is started we will set up the cell. We will hide the buttons and adjust their look so
      that they look good. We will then set up the basic things like the description and title, and if the
      game had ever been checked in before, we will add the date. Otherwise, we will hide the checked in label.
@@ -37,9 +35,9 @@ class InGameCell : UITableViewCell {
         deleteButton.isHidden = true
         checkoutButton.isHidden = true
         
-    
         
-        descriptionLabel.text = "\(game.description)\nRating: \(game.rating.rawValue)"
+        
+        descriptionLabel.text = "\(game.gameDescription)\nRating: \(game.rating)"
         nameLabel.text = game.name
         if game.checkedInDate != "" {
             dateLabel.isHidden = false
@@ -80,7 +78,7 @@ class InGameCell : UITableViewCell {
     }
     
     
-     // Basic alpha animation transitions.
+    // Basic alpha animation transitions.
     func onSelectionAnimation() {
         let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn)
         animator.addAnimations {
@@ -88,7 +86,7 @@ class InGameCell : UITableViewCell {
             self.checkoutButton.alpha = 1.0
             self.moreInfoButton.alpha = 1.0
             self.deleteButton.alpha = 1.0
-
+            
         }
         animator.startAnimation()
     }

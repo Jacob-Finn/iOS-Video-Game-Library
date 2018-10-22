@@ -11,13 +11,13 @@ import UIKit
 
 
 class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     // This is the Checked out table controller. Any functions that happen in the OutList happen here
     // Functionally similar to the In-list with minor adjustments, such as a check in button rather than a check
     // out button. They both uses different cells as well, Checked vs In GameCells
     
     @IBOutlet weak var tableView: UITableView!
-    var currentlySelectedGame = VideoGame(name: "", description: "", rating: .E, genre: "")
+    var currentlySelectedGame = VideoGame()
     var currentlySelectedIndex = IndexPath.init()
     
     
@@ -61,22 +61,27 @@ class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITa
     
     // Same as the checkOut function except this one slides the other way before deleting.
     @objc func checkIn(sender: UIButton) {
-        VideoGameManager.outGameList[sender.tag].checkIn()
-        VideoGameManager.inGameList.append(VideoGameManager.outGameList[sender.tag])
+        try! DataManager.sharedInstance.realm.write {
+            VideoGameManager.outGameList[sender.tag].checkIn()
+        }
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.left)
-        VideoGameManager.outGameList.remove(at: sender.tag)
+        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
+    // delete cell
     @objc func deleteCell(sender: UIButton) {
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.right)
-        VideoGameManager.outGameList.remove(at: sender.tag)
+        try! DataManager.sharedInstance.realm.write {
+            DataManager.sharedInstance.realm.delete(VideoGameManager.outGameList[sender.tag])
+        }
+        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
     @objc func showMoreInfo(sender: UIButton) {
         performSegue(withIdentifier: "info", sender: self)
-        // Show more info over the selected object later!
+        // Show more info over the selected object.
     }
     
     override func viewDidLoad() {
@@ -120,5 +125,5 @@ class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITa
     @IBAction func unwindToOut(segue:UIStoryboardSegue) { }
     
 }
-    
+
 
