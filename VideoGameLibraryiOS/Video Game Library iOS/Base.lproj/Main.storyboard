@@ -174,11 +174,9 @@
                     <connections>
                         <outlet property="tableView" destination="PcX-I7-tp4" id="Vqz-ct-tFd"/>
                         <segue destination="ATo-sS-Bwo" kind="show" identifier="info" id="rhi-ls-SvP"/>
-                        <segue destination="Fwd-9L-gPd" kind="unwind" unwindAction="unwindToMainWithSegue:" id="AuJ-e7-iWp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMl-r3-iEJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Fwd-9L-gPd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="108.69565217391305" y="-53.571428571428569"/>
         </scene>
@@ -488,16 +486,8 @@
             </objects>
             <point key="canvasLocation" x="549.60000000000002" y="711.99400299850083"/>
         </scene>
-        <!--Creator-->
-        <scene sceneID="nSK-hk-FLt">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Creator" id="eO7-ps-cb2" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q4k-Hs-Dbn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="550" y="1102"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rhi-ls-SvP"/>
+        <segue reference="w58-eQ-Llw"/>
     </inferredMetricsTieBreakers>
 </document>

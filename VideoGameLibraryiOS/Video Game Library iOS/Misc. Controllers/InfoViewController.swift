@@ -35,7 +35,7 @@ class InfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if dataPassage == .inGameList {
-           setupGame = VideoGameManager.inGameList[setupGameLocation]
+            setupGame = VideoGameManager.inGameList[setupGameLocation]
         } else {
             setupGame = VideoGameManager.outGameList[setupGameLocation]
         }
@@ -73,7 +73,7 @@ class InfoViewController: UIViewController {
     }
     
     
-   
+    
     
     
     

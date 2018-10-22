@@ -13,7 +13,7 @@
         <scene sceneID="ErE-4g-mcg">
             <objects>
                 <viewController storyboardIdentifier="create" id="FeA-Fo-W0P" customClass="CreatorViewController" customModule="Video_Game_Library_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gmo-Uv-JQF">
+                    <view key="view" contentMode="scaleToFill" id="gmo-Uv-JQF" userLabel="creator">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -212,21 +212,6 @@
                 <exit id="BoJ-wy-Njg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="72.799999999999997" y="-85.007496251874073"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="yaU-0b-dl7">
-            <objects>
-                <viewController id="TaT-Cg-iMT" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="d6a-Zs-FCk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="y2i-iE-45c"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Iib-1d-5tH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="974" y="-85"/>
         </scene>
     </scenes>
 </document>

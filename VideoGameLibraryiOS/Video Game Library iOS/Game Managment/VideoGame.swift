@@ -26,7 +26,7 @@ class VideoGame: Object {
     
     
     
-// not functional with realm.
+    // not functional with realm.
     func loadImage() -> UIImage {
         guard let image = UIImage(named: self.image) else {
             let errorImage = UIImage(named: "missingImage")
@@ -56,6 +56,6 @@ class VideoGame: Object {
         self.checkedInDate = dateFormatter.string(from: today)
     }
     
-
+    
 }
 

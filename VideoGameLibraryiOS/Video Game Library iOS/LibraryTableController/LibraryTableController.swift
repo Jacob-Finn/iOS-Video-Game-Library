@@ -69,7 +69,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
         try! DataManager.sharedInstance.realm.write {
             DataManager.sharedInstance.realm.delete(VideoGameManager.inGameList[sender.tag])
         }
-        VideoGameManager.setUp() We call setup here to reassign and setup the game lists.
+        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
         tableView.reloadData()
     }
     
@@ -85,7 +85,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         if DataManager.sharedInstance.objectsArray.count == 0 {
             VideoGameManager.createGame(name: "Tester", description: "debug", rating: "Teen", dueDate: "", beenCheckedOut: false, image: "missingImage", genre: "Debugging")
-             VideoGameManager.createGame(name: "Testertwo", description: "debug", rating: "Teen", dueDate: "", beenCheckedOut: false, image: "missingImage", genre: "Debugging")
+            VideoGameManager.createGame(name: "Testertwo", description: "debug", rating: "Teen", dueDate: "", beenCheckedOut: false, image: "missingImage", genre: "Debugging")
         }
         VideoGameManager.setUp()
     }
@@ -115,7 +115,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func addTapped(_ sender: Any) {
         let creatorView: UIStoryboard = UIStoryboard(name: "Creator", bundle: nil)
         let creatorVC = creatorView.instantiateViewController(withIdentifier: "create") as! CreatorViewController
-            creatorVC.dataPassage = .create
+        creatorVC.dataPassage = .create
         self.present(creatorVC, animated: false, completion: nil)
     }
     

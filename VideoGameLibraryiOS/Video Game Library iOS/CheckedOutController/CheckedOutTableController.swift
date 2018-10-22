@@ -11,7 +11,7 @@ import UIKit
 
 
 class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     // This is the Checked out table controller. Any functions that happen in the OutList happen here
     // Functionally similar to the In-list with minor adjustments, such as a check in button rather than a check
     // out button. They both uses different cells as well, Checked vs In GameCells
@@ -125,5 +125,5 @@ class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITa
     @IBAction func unwindToOut(segue:UIStoryboardSegue) { }
     
 }
-    
+
 

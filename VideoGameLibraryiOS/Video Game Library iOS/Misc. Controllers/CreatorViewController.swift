@@ -30,6 +30,7 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         case outGameList
         case create
     }
+    var originalDueDate = ""
     var setDueDate = ""
     var dataPassage: DataPassage = .inGameList
     var button = DropDownButton()
@@ -135,7 +136,7 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
                 currentlySelectedGame = VideoGameManager.outGameList[currentlySelectedIndex]
             }
         }
-        setDueDate = currentlySelectedGame.dueDate
+        originalDueDate = currentlySelectedGame.dueDate
         titleEditor.text = currentlySelectedGame.name
         genreEditor.text = currentlySelectedGame.genre
         descriptionEditor.text = currentlySelectedGame.gameDescription
@@ -235,8 +236,15 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
                 DataManager.sharedInstance.realm.delete(VideoGameManager.outGameList[currentlySelectedIndex])
             }
             
+            // Used to make sure that a date is set that isn't an error before we initate the new object.
+            dueDateEditor.endEditing(true)
+            if setDueDate == "" {
+                setDueDate = originalDueDate
+            } else if dueDateEditor.text != "Invalid date!" || dueDateEditor.text != "" {
+                setDueDate = dueDateEditor.text!
+            }
             
-            VideoGameManager.createGame(name: titleEditor.text!, description: descriptionEditor.text!, rating: (button.titleLabel?.text!)!, dueDate: "", beenCheckedOut: false, image: "", genre: genreEditor.text!)
+            VideoGameManager.createGame(name: titleEditor.text!, description: descriptionEditor.text!, rating: (button.titleLabel?.text!)!, dueDate: setDueDate, beenCheckedOut: true, image: "", genre: genreEditor.text!)
             VideoGameManager.setUp()
             self.performSegue(withIdentifier: "unwindToOut", sender: self)
         }

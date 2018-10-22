@@ -21,7 +21,7 @@ class CheckedGameCell: UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var checkInButton: UIButton!
     
-  
+    
     
     func setup(to game: VideoGame) {
         moreInfoButton.layer.cornerRadius = 4.0
