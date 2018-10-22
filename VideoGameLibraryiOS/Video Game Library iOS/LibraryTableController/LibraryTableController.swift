@@ -65,11 +65,8 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     // deletes the selected cell completely.
     @objc func deleteCell(sender: UIButton) {
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.left)
-        VideoGameManager.inGameList.remove(at: sender.tag)
-        try! DataManager.sharedInstance.realm.write {
-            DataManager.sharedInstance.realm.delete(VideoGameManager.inGameList[sender.tag])
-        }
-        VideoGameManager.setUp() // We call setup here to reassign and setup the game lists.
+        let game = VideoGameManager.inGameList[sender.tag]
+        VideoGameManager.delete(game: game)
         tableView.reloadData()
     }
     

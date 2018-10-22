@@ -12,7 +12,7 @@ import RealmSwift
 class DataManager {
     // Handles all realm data management.
     
-    
+     
     static var sharedInstance = DataManager()
     let realm = try! Realm()
     var objectsArray: Results<VideoGame> {

@@ -32,7 +32,7 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     var originalDueDate = ""
     var setDueDate = ""
-    var dataPassage: DataPassage = .inGameList
+    var dataPassage: DataPassage = .create
     var button = DropDownButton()
     let imagePicker = UIImagePickerController()
     
@@ -140,7 +140,7 @@ class CreatorViewController: UIViewController, UIImagePickerControllerDelegate, 
         titleEditor.text = currentlySelectedGame.name
         genreEditor.text = currentlySelectedGame.genre
         descriptionEditor.text = currentlySelectedGame.gameDescription
-        if currentlySelectedGame.beenCheckedOut || dataPassage == .create { // If the game isn't checked out or
+        if currentlySelectedGame.beenCheckedOut  { // If the game isn't checked out or
             // the creator is in "create" mode, we don't need to show a due date.
             dueDateEditor.isHidden = false
             dueDateLabel.isHidden = false

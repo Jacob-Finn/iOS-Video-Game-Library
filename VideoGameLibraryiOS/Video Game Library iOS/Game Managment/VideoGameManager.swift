@@ -24,6 +24,15 @@ class VideoGameManager {
         outGameList = outGameListFilter
     }
     
+    static func delete(game: VideoGame) {
+        try! DataManager.sharedInstance.realm.write {
+            DataManager.sharedInstance.realm.delete(game)
+        }
+        setUp()
+    }
+    
+    
+    
     
     
     // The new init for the video game function that also adds the game into the realm data base at the end.
