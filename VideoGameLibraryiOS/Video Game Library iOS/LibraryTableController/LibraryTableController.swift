@@ -15,7 +15,7 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBOutlet weak var tableView: UITableView!
     
-    var currentlySelectedGame = VideoGame(name: "", description: "", rating: .E, genre: "")
+    var currentlySelectedGame = VideoGame()
     var currentlySelectedIndex = IndexPath.init()
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -54,10 +54,11 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     @objc func checkOut(sender: UIButton) {
         let cell = tableView.cellForRow(at: currentlySelectedIndex) as? InGameCell
         cell?.onUnselection()
-        VideoGameManager.inGameList[sender.tag].checkOut()
-        VideoGameManager.outGameList.append(VideoGameManager.inGameList[sender.tag])
+        try! DataManager.sharedInstance.realm.write {
+            VideoGameManager.inGameList[sender.tag].checkOut()
+        }
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.right)
-        VideoGameManager.inGameList.remove(at: sender.tag)
+        VideoGameManager.setUp()
         tableView.reloadData()
     }
     
@@ -65,6 +66,10 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     @objc func deleteCell(sender: UIButton) {
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.left)
         VideoGameManager.inGameList.remove(at: sender.tag)
+        try! DataManager.sharedInstance.realm.write {
+            DataManager.sharedInstance.realm.delete(VideoGameManager.inGameList[sender.tag])
+        }
+        VideoGameManager.setUp()
         tableView.reloadData()
     }
     
@@ -78,13 +83,11 @@ class LibraryTableViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if VideoGameManager.setup == false {
-            let game1 = VideoGame(name: "I am debug", description: "The return of the debug that will strike back", rating: .M, genre: "Debug")
-            let game2 = VideoGame(name: "Minecraft", description: "Mine diamonds", rating: .E, genre: "Sandbox")
-            VideoGameManager.inGameList.append(game1)
-            VideoGameManager.inGameList.append(game2)
-            VideoGameManager.setup = true
+        if DataManager.sharedInstance.objectsArray.count == 0 {
+            VideoGameManager.createGame(name: "Tester", description: "debug", rating: "Teen", dueDate: "", beenCheckedOut: false, image: "missingImage", genre: "Debugging")
+             VideoGameManager.createGame(name: "Testertwo", description: "debug", rating: "Teen", dueDate: "", beenCheckedOut: false, image: "missingImage", genre: "Debugging")
         }
+        VideoGameManager.setUp()
     }
     // Whenever we are moving away from the screen, if we have a cell selected we need to make sure to call its
     // onUnselection, or else we'll have a cell that has buttons still on display when we return to the screen.

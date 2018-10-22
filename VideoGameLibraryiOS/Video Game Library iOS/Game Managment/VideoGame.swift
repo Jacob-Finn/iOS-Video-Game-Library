@@ -7,50 +7,28 @@
 //
 
 import UIKit
-
-enum Rating: String {
-    case E = "Everyone"
-    case T = "Teen"
-    case M = "Mature"
-}
+import Foundation
+import RealmSwift
 
 
-class VideoGame {
-    var name: String
-    var description: String
-    var dueDate: String
-    var beenCheckedOut: Bool
-    var checkedInDate: String
-    var image: UIImage?
-    var genre: String
+
+
+class VideoGame: Object {
+    @objc dynamic var name: String = ""
+    @objc dynamic var gameDescription: String = ""
+    @objc dynamic var dueDate: String = ""
+    @objc dynamic var beenCheckedOut: Bool = false
+    @objc dynamic var checkedInDate: String = ""
+    @objc dynamic var image: String = "missingImage"
+    @objc dynamic var genre: String = ""
+    @objc dynamic var rating: String = ""
+    @objc dynamic var positionInArray: Int = 0
     
-    var rating: Rating
     
-    init (name: String, description: String, rating: Rating, genre: String) {
-        self.name = name
-        self.description = description
-        self.dueDate = ""
-        self.beenCheckedOut = false
-        self.rating = rating
-        self.checkedInDate = ""
-        self.genre = genre
-        self.image = setupImage() // The videogame will try to set its image = to its name if it exists
-    }
-    
-    init (name: String, description: String, dueDate: String, checkedInDate: String, rating: Rating, genre: String, beenCheckedOut: Bool, image: UIImage) {
-        self.name = name
-        self.description = description
-        self.dueDate = dueDate
-        self.beenCheckedOut = beenCheckedOut
-        self.rating = rating
-        self.checkedInDate = checkedInDate
-        self.genre = genre
-        self.image = image
-    }
     
 
-    func setupImage() -> UIImage {
-        guard let image = UIImage(named: self.name) else {
+    func loadImage() -> UIImage {
+        guard let image = UIImage(named: self.image) else {
             let errorImage = UIImage(named: "missingImage")
             return errorImage!
         }
@@ -58,6 +36,7 @@ class VideoGame {
         // If the image doesn't exist, we just set up a default missingImage picture, the users can always change
         // this later.
     }
+    
     
     func checkOut() {
         let calander = Calendar.init(identifier: .gregorian)

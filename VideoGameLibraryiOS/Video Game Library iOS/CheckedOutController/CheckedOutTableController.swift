@@ -17,7 +17,7 @@ class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITa
     // out button. They both uses different cells as well, Checked vs In GameCells
     
     @IBOutlet weak var tableView: UITableView!
-    var currentlySelectedGame = VideoGame(name: "", description: "", rating: .E, genre: "")
+    var currentlySelectedGame = VideoGame()
     var currentlySelectedIndex = IndexPath.init()
     
     
@@ -61,16 +61,20 @@ class CheckedOutTableViewController: UIViewController, UITableViewDelegate, UITa
     
     // Same as the checkOut function except this one slides the other way before deleting.
     @objc func checkIn(sender: UIButton) {
-        VideoGameManager.outGameList[sender.tag].checkIn()
-        VideoGameManager.inGameList.append(VideoGameManager.outGameList[sender.tag])
+        try! DataManager.sharedInstance.realm.write {
+            VideoGameManager.outGameList[sender.tag].checkIn()
+        }
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.left)
-        VideoGameManager.outGameList.remove(at: sender.tag)
+        VideoGameManager.setUp()
         tableView.reloadData()
     }
     
     @objc func deleteCell(sender: UIButton) {
         tableView.reloadRows(at: [currentlySelectedIndex], with: UITableView.RowAnimation.right)
-        VideoGameManager.outGameList.remove(at: sender.tag)
+        try! DataManager.sharedInstance.realm.write {
+            DataManager.sharedInstance.realm.delete(VideoGameManager.outGameList[sender.tag])
+        }
+        VideoGameManager.setUp()
         tableView.reloadData()
     }
     

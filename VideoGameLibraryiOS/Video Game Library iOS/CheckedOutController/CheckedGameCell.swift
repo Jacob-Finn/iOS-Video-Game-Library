@@ -21,7 +21,7 @@ class CheckedGameCell: UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var checkInButton: UIButton!
     
-    
+  
     
     func setup(to game: VideoGame) {
         moreInfoButton.layer.cornerRadius = 4.0
@@ -29,7 +29,7 @@ class CheckedGameCell: UITableViewCell {
         checkInButton.layer.cornerRadius = 4.0
         
         titleLabel.text = game.name
-        descriptionLabel.text = "\(game.description)\nRating: \(game.rating.rawValue)"
+        descriptionLabel.text = "\(game.gameDescription)\nRating: \(game.rating)"
         dueDateLabel.text = game.dueDate
         
         moreInfoButton.isHidden = true
